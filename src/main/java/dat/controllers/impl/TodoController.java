@@ -9,6 +9,7 @@ import dk.bugelhartmann.UserDTO;
 import io.javalin.http.Context;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceException;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -96,6 +97,11 @@ public class TodoController implements IController<TodoDTO, Integer> {
             throw new ApiException(400, "Populator went wrong, dude");
         }
 
+    }
+
+    // Health check for the API. Used in deployment
+    public void healthCheck(@NotNull Context ctx) {
+        ctx.status(200).json("{\"msg\": \"API is up and running\"}");
     }
 
 }

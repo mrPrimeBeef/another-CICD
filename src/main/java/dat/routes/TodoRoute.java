@@ -13,6 +13,7 @@ public class TodoRoute {
     protected EndpointGroup getRoutes() {
 
         return () -> {
+            get("/healthcheck", todoController::healthCheck, Role.ANYONE);
             post("/populate", todoController::populate, Role.ANYONE);
             post("/", todoController::create, Role.USER);
             get("/", todoController::readAll, Role.ANYONE);
