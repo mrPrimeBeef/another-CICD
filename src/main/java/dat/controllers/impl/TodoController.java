@@ -22,7 +22,7 @@ public class TodoController implements IController<TodoDTO, Integer> {
     }
 
     @Override
-    public void read(Context ctx) throws ApiException, ApiException {
+    public void read(Context ctx) throws ApiException {
         try {
             int id = Integer.parseInt(ctx.pathParam("id"));
             TodoDTO todoDTO = dao.read(id);

@@ -4,13 +4,12 @@ import dat.daos.impl.TodoDAO;
 import dat.dtos.TodoDTO;
 import dat.security.entities.User;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @Entity

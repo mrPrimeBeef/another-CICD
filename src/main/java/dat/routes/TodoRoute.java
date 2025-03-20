@@ -20,7 +20,7 @@ public class TodoRoute {
             get("/mine", todoController::readAllFromUser, Role.USER);
             get("/{id}", todoController::read, Role.USER);
             put("/{id}", todoController::update, Role.USER);
-            delete("/{id}", todoController::delete, Role.USER);
+            delete("/{id}", todoController::delete, Role.ADMIN);
         };
     }
 }

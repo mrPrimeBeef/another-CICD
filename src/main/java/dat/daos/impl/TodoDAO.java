@@ -17,6 +17,8 @@ public class TodoDAO implements IDAO<TodoDTO, Integer> {
 
     private static TodoDAO instance;
     private static EntityManagerFactory emf;
+    private UserDTO userDTO;
+    private UserDTO adminDTO;
 
     public static TodoDAO getInstance(EntityManagerFactory _emf) {
         if (instance == null) {
@@ -26,18 +28,19 @@ public class TodoDAO implements IDAO<TodoDTO, Integer> {
         return instance;
     }
 
-    @Override
-    public TodoDTO read(Integer integer) throws ApiException {
-        try (EntityManager em = emf.createEntityManager()) {
-            Todo todo = em.find(Todo.class, integer);
-            if (todo == null) {
-                throw new ApiException(404, "Todo not found");
+        @Override
+        public TodoDTO read(Integer integer) throws ApiException {
+            try (EntityManager em = emf.createEntityManager()) {
+                Todo todo = em.find(Todo.class, integer);
+                if (todo == null) {
+                    throw new ApiException(404, "Todo not found");
+                }
+                return new TodoDTO(todo);
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new ApiException(400, "Something went wrong during read");
             }
-            return new TodoDTO(todo);
-        } catch (Exception e) {
-            throw new ApiException(400, "Something went wrong during read");
         }
-    }
 
     @Override
     public List<TodoDTO> readAll() throws ApiException {
@@ -116,8 +119,8 @@ public class TodoDAO implements IDAO<TodoDTO, Integer> {
 
     public TodoDTO[] populate() throws ApiException {
         UserDTO[] users = SecurityPopulatorDAO.populateUsers(emf);
-        UserDTO userDTO = users[0];
-        UserDTO adminDTO = users[1];
+        userDTO = users[0];
+        adminDTO = users[1];
         TodoDTO t1 = new TodoDTO(null, "Buy milk", "Buy milk at the store", false, userDTO);
         TodoDTO t2 = new TodoDTO(null, "Buy bread", "Buy bread at the store", false, userDTO);
         TodoDTO t3 = new TodoDTO(null, "Buy cheese", "Buy cheese at the store", false, adminDTO);
@@ -126,7 +129,8 @@ public class TodoDAO implements IDAO<TodoDTO, Integer> {
         create(t3);
         return new TodoDTO[] {t1, t2, t3};
     }
-
-
+    public UserDTO[] getAllUsers(){
+        UserDTO[] usersArray = { userDTO, adminDTO };
+        return usersArray;
+    }
 }
-
